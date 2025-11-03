@@ -5,13 +5,16 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     if (targetId.length > 1){
       e.preventDefault();
       document.querySelector(targetId).scrollIntoView({ behavior: 'smooth'});
-      // navLinks.classList.remove('open'); // 기존 모바일 토글 관련 코드 제거
       
-      // 사이드바가 열려 있을 때 앵커 클릭 시 닫히게 하려면 아래 코드 추가 가능:
-      // const pageBody = document.getElementById('pageBody');
-      // if (pageBody.classList.contains('sidebar-closed') === false) {
-      //    pageBody.classList.add('sidebar-closed'); 
-      // }
+      // 앵커 클릭 시 사이드바가 열려 있으면 닫히게 처리
+      const pageBody = document.getElementById('pageBody');
+      const sidebarToggle = document.getElementById('sidebarToggle');
+      
+      if (pageBody && sidebarToggle && !pageBody.classList.contains('sidebar-closed')) {
+         pageBody.classList.add('sidebar-closed'); 
+         sidebarToggle.textContent = '▶';
+         sidebarToggle.setAttribute('aria-expanded', 'false');
+      }
     }
   });
 });
@@ -21,8 +24,10 @@ const sidebarToggle = document.getElementById('sidebarToggle');
 const pageBody = document.getElementById('pageBody'); // body 태그 ID
 
 if (sidebarToggle && pageBody) {
-  // 초기 상태 설정
-  pageBody.classList.remove('sidebar-closed'); // 처음에는 열린 상태로 시작
+  // 초기 상태: 닫힌 상태로 시작하려면 pageBody.classList.add('sidebar-closed')를 사용
+  // 여기서는 처음에는 열린 상태로 시작합니다.
+  pageBody.classList.remove('sidebar-closed'); 
+  sidebarToggle.textContent = '◀'; // 초기 아이콘 설정
 
   sidebarToggle.addEventListener('click', () => {
     // body 태그에 'sidebar-closed' 클래스를 토글합니다.
