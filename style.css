@@ -1,5 +1,5 @@
 :root{
-  --bg:#0f0f12; /* 배경: 짙은 차콜/검정 */
+  --bg:#1a1a1a; /* 배경: 짙은 차콜/검정 */
   --muted:#8a94a7;
   --text:#e7ecf4;
   --card:#121833;
@@ -48,14 +48,14 @@ body{
   color: var(--sidebar-text);
   padding: 40px 20px;
   text-align: center;
-  transition: width 0.3s ease; /* 너비 트랜지션 */
-  position: relative; /* 토글 버튼 기준 */
+  transition: width 0.3s ease;
+  position: relative;
 }
 .sidebar-content{
   display: flex;
   flex-direction: column;
   align-items: center;
-  transition: opacity 0.3s ease; /* 내용 숨김 트랜지션 */
+  transition: opacity 0.3s ease;
 }
 
 /* === 사이드바 토글 버튼 스타일 === */
@@ -73,7 +73,6 @@ body{
   transition: all 0.3s ease;
 }
 .sidebar-toggle:hover{ background: var(--sidebar-link-hover); }
-
 
 /* 프로필 정보 */
 .sidebar-avatar{
@@ -108,8 +107,6 @@ body{
    grid-template-columns: var(--sidebar-width-closed) 1fr;
 }
 
-/* 사이드바 자체의 너비는 CSS Grid가 처리하므로 불필요 (transition만 유지) */
-
 /* 내용 숨기기 */
 #pageBody.sidebar-closed .sidebar-content {
     opacity: 0;
@@ -134,9 +131,33 @@ p{ margin: 0 0 12px; color:var(--muted); }
 a{ color: var(--accent); text-decoration: none; }
 a:hover{ text-decoration: underline; }
 
-.nav-toggle{ display:none; } /* 모바일 토글 버튼 숨김 */
+.nav-toggle{ display:none; }
 
-.hero{ padding: 96px 20px 72px; text-align:center; max-width: 900px; margin: 0 auto; }
+/* === HERO 섹션 스타일 수정 (이미지 배치) === */
+.hero{
+  padding: 80px 40px; 
+  max-width: 1100px;
+  margin: 0 auto;
+  
+  display: flex;
+  flex-direction: column; /* 기본은 세로 */
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  text-align: center;
+}
+.hero-content{
+    text-align: center;
+    max-width: 600px;
+}
+.hero-image{
+  max-width: 300px;
+  height: 400px; /* HOME 버튼까지의 높이를 맞추기 위해 높이를 지정 */
+  object-fit: cover; /* 비율 유지하며 채우기 */
+  border-radius: 12px; 
+  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+}
+
 .hero h1{ font-size: 40px; font-weight: 800; }
 .accent{ color: var(--accent); }
 .btn{
@@ -174,14 +195,32 @@ textarea{ min-height: 140px; resize: vertical; }
 /* 반응형 디자인 (Media Queries) 수정 */
 /* ------------------------------------- */
 
+@media (min-width: 768px) { 
+  /* 데스크톱/태블릿에서 hero 섹션 가로 배치 */
+  .hero{
+    flex-direction: row; /* 가로로 배치 */
+    text-align: left; 
+    justify-content: space-around; /* 중앙 간격 배분 */
+    align-items: center; 
+    padding: 80px 40px;
+  }
+  .hero-content{
+      text-align: left;
+      max-width: 50%; /* 텍스트 영역 너비 조절 */
+  }
+  .hero-image{
+    margin-left: 30px; /* 텍스트와의 간격 */
+  }
+}
+
 @media (max-width: 900px){
   .grid{ grid-template-columns: 1fr 1fr; }
 }
 
 @media (max-width: 680px){
-  /* 모바일에서는 접힘 기능을 해제하고 일반 세로 레이아웃으로 전환 */
+  /* 모바일에서는 사이드바 접힘 기능 해제 */
   body{
-    grid-template-columns: 1fr !important; /* !important로 자바스크립트/인라인 스타일보다 우선 적용 */
+    grid-template-columns: 1fr !important;
     transition: none;
   }
   .sidebar-header{
@@ -196,7 +235,7 @@ textarea{ min-height: 140px; resize: vertical; }
     grid-column: 1 / -1; 
   }
   
-  /* 모바일에서 토글 버튼은 숨기거나 위치를 조정해야 합니다. 여기서는 숨김 처리 */
+  /* 모바일에서 토글 버튼은 숨김 */
   .sidebar-toggle{
     display: none;
   }
