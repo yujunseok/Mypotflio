@@ -1,5 +1,5 @@
 :root{
-  --bg:#1a1a1a; /* 배경: 짙은 차콜/검정 */
+  --bg:#0f0f12; /* 배경: 짙은 차콜/검정 */
   --muted:#8a94a7;
   --text:#e7ecf4;
   --card:#121833;
@@ -21,26 +21,19 @@ body{
   color:var(--text);
   line-height:1.6;
   
-  /* === 핵심: CSS Grid 레이아웃 적용 및 트랜지션 추가 === */
+  /* === 핵심 수정 1: Grid를 단일 컬럼으로 단순화 === */
   display: grid;
-  grid-template-columns: var(--sidebar-width) 1fr; /* 사이드바 | 메인 콘텐츠 */
-  transition: grid-template-columns 0.3s ease; /* 펼침/접힘 시 부드러운 전환 */
+  grid-template-columns: 1fr; /* 단일 컬럼 */
   min-height: 100vh;
   background-color: var(--bg);
 }
 
-/* === 1. 메인 콘텐츠 래퍼 === */
-.main-content{
-  grid-column: 2 / 3;
-  background: linear-gradient(180deg, var(--bg) 0%, #121833 100%);
-  color: var(--text);
-  min-height: 100vh;
-}
-
-/* === 2. 사이드바 스타일 === */
+/* === 2. 사이드바 스타일 (Fixed Position) === */
 .sidebar-header{
-  grid-column: 1 / 2;
-  position: sticky; top:0; z-index: 50;
+  /* grid-column: 1 / 2; 제거 (Fixed Position은 플로우에서 제거됨) */
+  position: fixed; top:0; left: 0; /* <<< 이 부분이 스크롤에 따라오게 합니다. */
+  z-index: 50;
+  width: var(--sidebar-width); /* 고정 위치이므로 너비 필수 지정 */
   height: 100vh;
   overflow-y: auto;
   background: var(--sidebar-bg);
@@ -48,7 +41,7 @@ body{
   color: var(--sidebar-text);
   padding: 40px 20px;
   text-align: center;
-  transition: width 0.3s ease;
+  transition: width 0.3s ease; /* 너비 트랜지션 */
   position: relative;
 }
 .sidebar-content{
@@ -56,6 +49,18 @@ body{
   flex-direction: column;
   align-items: center;
   transition: opacity 0.3s ease;
+}
+
+/* === 1. 메인 콘텐츠 래퍼 === */
+.main-content{
+  grid-column: 1 / 2; /* 단일 컬럼 채우기 */
+  /* 핵심 수정 2: 사이드바 공간 확보를 위해 margin-left 사용 */
+  margin-left: var(--sidebar-width); 
+  transition: margin-left 0.3s ease; /* 사이드바 토글 시 부드러운 전환 */
+  
+  background: linear-gradient(180deg, var(--bg) 0%, #121833 100%);
+  color: var(--text);
+  min-height: 100vh;
 }
 
 /* === 사이드바 토글 버튼 스타일 === */
@@ -102,9 +107,12 @@ body{
 /* === 사이드바 접힘 상태 (.sidebar-closed) === */
 /* ------------------------------------- */
 
-/* body에 클래스가 있을 때 Grid 너비 변경 */
-#pageBody.sidebar-closed{
-   grid-template-columns: var(--sidebar-width-closed) 1fr;
+/* body에 클래스가 있을 때 (사이드바 접힘) */
+#pageBody.sidebar-closed .sidebar-header{
+   width: var(--sidebar-width-closed); /* 사이드바 너비 축소 */
+}
+#pageBody.sidebar-closed .main-content{
+   margin-left: var(--sidebar-width-closed); /* 메인 콘텐츠 마진 축소 */
 }
 
 /* 내용 숨기기 */
@@ -140,7 +148,7 @@ a:hover{ text-decoration: underline; }
   margin: 0 auto;
   
   display: flex;
-  flex-direction: column; /* 기본은 세로 */
+  flex-direction: column; 
   align-items: center;
   justify-content: center;
   gap: 30px;
@@ -148,12 +156,12 @@ a:hover{ text-decoration: underline; }
 }
 .hero-content{
     text-align: center;
-    max-width: 600px;
+    max-width: 50%; /* 데스크톱에서 텍스트 영역 */
 }
 .hero-image{
   max-width: 300px;
-  height: 400px; /* HOME 버튼까지의 높이를 맞추기 위해 높이를 지정 */
-  object-fit: cover; /* 비율 유지하며 채우기 */
+  height: 400px; 
+  object-fit: cover; 
   border-radius: 12px; 
   box-shadow: 0 8px 25px rgba(0,0,0,0.3);
 }
@@ -196,20 +204,19 @@ textarea{ min-height: 140px; resize: vertical; }
 /* ------------------------------------- */
 
 @media (min-width: 768px) { 
-  /* 데스크톱/태블릿에서 hero 섹션 가로 배치 */
   .hero{
-    flex-direction: row; /* 가로로 배치 */
+    flex-direction: row; 
     text-align: left; 
-    justify-content: space-around; /* 중앙 간격 배분 */
+    justify-content: space-around;
     align-items: center; 
     padding: 80px 40px;
   }
   .hero-content{
       text-align: left;
-      max-width: 50%; /* 텍스트 영역 너비 조절 */
+      max-width: 50%;
   }
   .hero-image{
-    margin-left: 30px; /* 텍스트와의 간격 */
+    margin-left: 30px;
   }
 }
 
@@ -218,21 +225,23 @@ textarea{ min-height: 140px; resize: vertical; }
 }
 
 @media (max-width: 680px){
-  /* 모바일에서는 사이드바 접힘 기능 해제 */
-  body{
-    grid-template-columns: 1fr !important;
-    transition: none;
-  }
+  /* 모바일에서는 fixed 대신 relative를 사용 */
   .sidebar-header{
+    position: relative; /* Fixed 해제 */
+    width: 100%;
     grid-column: 1 / -1; 
-    position: relative; 
     height: auto; 
     padding: 20px 20px;
     border-right: none;
     border-bottom: 1px solid rgba(0,0,0,0.1);
   }
   .main-content{
+    margin-left: 0 !important; /* 모바일에서 마진 제거 */
     grid-column: 1 / -1; 
+  }
+  body{
+    grid-template-columns: 1fr !important;
+    transition: none;
   }
   
   /* 모바일에서 토글 버튼은 숨김 */
@@ -246,11 +255,9 @@ textarea{ min-height: 140px; resize: vertical; }
   .nav-links{ flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 10px 0 10px; }
   .sidebar-social{ display: none; }
   
-  /* 기존 컴포넌트 */
+  /* 나머지 컴포넌트 */
   .about-grid{ grid-template-columns: 1fr; text-align:center; }
   .row{ grid-template-columns: 1fr; }
-  
-  /* 모바일에서 접힘 상태 CSS 무시 */
   #pageBody.sidebar-closed{
     grid-template-columns: 1fr !important;
   }
