@@ -1,36 +1,135 @@
 :root{
-  --bg:#0b1020;
+  --bg:#0b1020; /* 메인 콘텐츠 배경 (어두움) */
   --muted:#8a94a7;
-  --text:#e7ecf4;
+  --text:#e7ecf4; /* 메인 콘텐츠 텍스트 */
   --card:#121833;
   --accent:#6cc3ff;
   --accent-2:#4aa8ec;
+  
+  /* === 사이드바 전용 변수 추가/수정 === */
+  --sidebar-width: 260px; /* 사이드바 고정 너비 */
+  --sidebar-bg: #f5f5f5; /* 사이드바 배경 (밝은 회색) */
+  --sidebar-text: #333333; /* 사이드바 텍스트 */
+  --sidebar-link-hover: #e0e0e0;
 }
 *{ box-sizing:border-box; }
 html,body{ margin:0; padding:0; }
+
 body{
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Noto Sans KR, Arial, sans-serif;
-  background: linear-gradient(180deg, #0b1020 0%, #0e1530 100%);
   color:var(--text);
   line-height:1.6;
+  
+  /* === 핵심 수정: CSS Grid 레이아웃 적용 === */
+  display: grid;
+  grid-template-columns: var(--sidebar-width) 1fr; /* 사이드바 | 메인 콘텐츠 */
+  min-height: 100vh; /* 화면 전체 높이 사용 */
+  background-color: var(--bg); /* 전체 배경색 */
 }
+
+/* === 1. 메인 콘텐츠 래퍼 (기존 body 배경색 적용) === */
+.main-content{
+  grid-column: 2 / 3;
+  background: linear-gradient(180deg, #0b1020 0%, #0e1530 100%);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* === 2. 사이드바 스타일 (기존 .site-header 대체) === */
+.sidebar-header{
+  grid-column: 1 / 2;
+  position: sticky; top:0; z-index: 50;
+  height: 100vh; /* 화면 높이 전체 차지 */
+  overflow-y: auto; /* 내용 초과 시 스크롤 허용 */
+  background: var(--sidebar-bg);
+  border-right: 1px solid rgba(0,0,0,0.1);
+  color: var(--sidebar-text);
+  padding: 40px 20px;
+  text-align: center;
+}
+.sidebar-content{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 프로필 정보 */
+.sidebar-avatar{
+  width: 140px; 
+  height: 140px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+  margin-bottom: 20px;
+}
+.sidebar-name{
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  color: var(--sidebar-text);
+}
+.sidebar-title{
+  font-size: 14px;
+  margin-bottom: 30px;
+  color: #777;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* === 3. 내비게이션 링크 (세로 정렬) === */
+.nav{ width: 100%; }
+.nav-links{ 
+  list-style:none; 
+  display:flex; 
+  flex-direction: column; /* 핵심: 세로로 배치 */
+  gap:10px; 
+  margin:20px 0 40px; 
+  padding:0; 
+  width: 100%;
+}
+.nav-links a{ 
+  color: var(--sidebar-text);
+  font-weight: 500;
+  padding:10px 10px; 
+  border-radius: 4px; 
+  display: block;
+  text-align: center;
+  text-transform: uppercase;
+}
+.nav-links a:hover{ 
+  background: var(--sidebar-link-hover); 
+  text-decoration:none; 
+}
+
+/* 소셜 링크 */
+.sidebar-social{
+  padding-top: 10px;
+  border-top: 1px solid #ddd;
+}
+.sidebar-social a{
+  display: block;
+  color: var(--sidebar-text);
+  margin-top: 10px;
+  text-decoration: none;
+}
+.sidebar-social a:hover{
+  text-decoration: underline;
+}
+
+/* ------------------------------------- */
+/* 기존 컴포넌트 스타일 유지 및 조정 */
+/* ------------------------------------- */
+
 .section{ padding:72px 20px; max-width: 1100px; margin: 0 auto; }
-h1,h2,h3{ margin:0 0 12px; line-height:1.2; }
+h1,h2,h3{ margin:0 0 12px; line-height:1.2; color:var(--text); }
 h2{ font-size: 32px; margin-bottom: 24px; }
 p{ margin: 0 0 12px; color:var(--muted); }
 a{ color: var(--accent); text-decoration: none; }
 a:hover{ text-decoration: underline; }
-.site-header{
-  position: sticky; top:0; z-index: 50;
-  background: rgba(11,16,32,0.8); backdrop-filter: blur(6px);
-  border-bottom: 1px solid rgba(255,255,255,0.06);
-}
-.nav{ display:flex; align-items:center; justify-content: space-between; max-width:1100px; margin:0 auto; padding:14px 20px;}
-.logo{ font-weight:800; letter-spacing:.2px; }
-.nav-links{ list-style:none; display:flex; gap:18px; margin:0; padding:0; }
-.nav-links a{ padding:8px 10px; border-radius: 10px; }
-.nav-links a:hover{ background: rgba(255,255,255,0.06); text-decoration:none; }
-.nav-toggle{ display:none; background:transparent; color:var(--text); border:1px solid rgba(255,255,255,0.2); padding:6px 10px; border-radius:8px; }
+
+/* 기존 .site-header, .nav, .logo 스타일은 사이드바에 의해 대체됨 */
+.nav-toggle{ display:none; } /* 모바일 토글 버튼 숨김 */
+
 .hero{
   padding: 96px 20px 72px; text-align:center; max-width: 900px; margin: 0 auto;
 }
@@ -42,7 +141,7 @@ a:hover{ text-decoration: underline; }
 }
 .btn:hover{ background: var(--accent-2); text-decoration:none; }
 .about-grid{ display:grid; grid-template-columns: 160px 1fr; gap:20px; align-items:center; }
-.avatar{ width:160px; height:160px; object-fit:cover; border-radius:50%; border:3px solid rgba(255,255,255,0.15); }
+/* .avatar 대신 .sidebar-avatar를 사용하도록 HTML을 수정했다면 이 스타일은 불필요 */
 .tags{ display:flex; flex-wrap:wrap; gap:8px; margin: 12px 0 0; padding:0; list-style:none; }
 .tags li{ background: rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.08); padding:6px 10px; border-radius:999px; color:var(--text);}
 .grid{ display:grid; grid-template-columns: repeat(3,1fr); gap:16px; }
@@ -66,14 +165,46 @@ textarea{ min-height: 140px; resize: vertical; }
 .status{ margin-top:10px; font-weight:700; }
 .status.ok{ color:#95f3c7; }
 .status.err{ color:#ff9aa2; }
-.site-footer{ padding: 36px 20px; text-align:center; color:var(--muted); border-top:1px solid rgba(255,255,255,0.06); }
+/* 푸터는 메인 콘텐츠에 통합 */
+.site-footer{ 
+  padding: 36px 20px; text-align:center; color:var(--muted); 
+  border-top:1px solid rgba(255,255,255,0.06); 
+}
+
+/* ------------------------------------- */
+/* 반응형 디자인 (Media Queries) 수정 */
+/* ------------------------------------- */
+
 @media (max-width: 900px){
   .grid{ grid-template-columns: 1fr 1fr; }
 }
+
+/* 모바일 레이아웃 (680px 이하) */
 @media (max-width: 680px){
+  /* === 핵심 수정: Grid 레이아웃 변경 === */
+  body{
+    grid-template-columns: 1fr; /* 사이드바와 메인 콘텐츠를 세로로 쌓음 */
+  }
+  .sidebar-header{
+    grid-column: 1 / -1; /* 사이드바가 전체 너비를 차지 */
+    position: relative; /* 고정(sticky) 대신 상대 위치로 변경 */
+    height: auto; /* 높이 제한 해제 */
+    padding: 20px 20px;
+    border-right: none;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+  }
+  .main-content{
+    grid-column: 1 / -1; /* 메인 콘텐츠가 전체 너비를 차지 */
+  }
+  
+  /* 사이드바 내 콘텐츠 정렬 조정 */
+  .sidebar-avatar{ width: 100px; height: 100px; margin-bottom: 10px; }
+  .sidebar-title{ margin-bottom: 10px; }
+  .nav-links{ flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 10px 0 10px; }
+  .sidebar-social{ display: none; } /* 모바일에서 소셜 링크 숨김 */
+  
+  /* 기존 컴포넌트 */
   .about-grid{ grid-template-columns: 1fr; text-align:center; }
   .row{ grid-template-columns: 1fr; }
-  .nav-toggle{ display:inline-block; }
-  .nav-links{ display:none; position:absolute; right:20px; top:56px; flex-direction:column; background: rgba(14,21,48,.98); padding:12px; border-radius:12px; border:1px solid rgba(255,255,255,0.08); }
-  .nav-links.open{ display:flex; }
 }
+```
