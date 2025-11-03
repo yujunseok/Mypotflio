@@ -1,15 +1,15 @@
 :root{
-  --bg:#1a1a1a; /* 배경: #1a1a1a로 변경 */
+  --bg:#1a1a1a; /* 배경: #1a1a1a */
   --muted:#8a94a7;
   --text:#e7ecf4;
-  --card:#242424; /* 카드 배경도 어둡게 변경 */
+  --card:#242424; 
   --accent:#6a8eac; 
   --accent-2:#597e9b;
   
   /* === 사이드바 전용 변수 === */
-  --sidebar-width: 260px;
+  --sidebar-width: 260px; 
   --sidebar-width-closed: 70px;
-  --sidebar-bg: #2b2b2b; /* 사이드바 배경색도 어둡게 변경 */
+  --sidebar-bg: #2b2b2b; 
   --sidebar-text: #e7ecf4; 
   --sidebar-link-hover: #3d3d3d;
 }
@@ -21,16 +21,14 @@ body{
   color:var(--text);
   line-height:1.6;
   
-  /* Fixed Sidebar를 위한 기본 레이아웃 설정 */
-  display: grid;
-  grid-template-columns: 1fr; 
+  /* Grid 제거: Fixed Layout을 위해 */
   min-height: 100vh;
   background-color: var(--bg);
 }
 
-/* === 2. 사이드바 스타일 (Fixed Position: 스크롤에 따라옴) === */
+/* === 1. 사이드바 스타일 (Fixed Position: 스크롤에 따라옴) === */
 .sidebar-header{
-  position: fixed; top:0; left: 0; /* <<< 이 코드가 사이드바를 브라우저 창에 고정합니다. */
+  position: fixed; top:0; left: 0; /* <<< 이 코드로 화면에 고정됩니다. */
   z-index: 50;
   width: var(--sidebar-width);
   height: 100vh;
@@ -41,7 +39,6 @@ body{
   padding: 40px 20px;
   text-align: center;
   transition: width 0.3s ease;
-  position: relative;
 }
 .sidebar-content{
   display: flex;
@@ -50,16 +47,15 @@ body{
   transition: opacity 0.3s ease;
 }
 
-/* === 1. 메인 콘텐츠 래퍼 === */
+/* === 2. 메인 콘텐츠 래퍼 === */
 .main-content{
-  grid-column: 1 / 2;
-  /* 사이드바 너비만큼 왼쪽 여백을 줘서 사이드바와 겹치지 않게 합니다. */
+  /* 사이드바 너비만큼 왼쪽 여백을 줘서 겹치지 않게 합니다. */
   margin-left: var(--sidebar-width); 
   transition: margin-left 0.3s ease; 
   
   background-color: var(--bg); 
   color: var(--text);
-  min-height: 100vh; /* 이 값이 100vh보다 길어져야 스크롤이 생깁니다. */
+  min-height: 100vh; /* 스크롤을 확인하려면 더 긴 내용을 넣거나 이 값을 늘려주세요. */
 }
 
 /* === 사이드바 토글 버튼 스타일 === */
@@ -234,8 +230,8 @@ textarea{ min-height: 140px; resize: vertical; }
     }
     
     body{
-        grid-template-columns: 1fr !important;
-        transition: none;
+        /* Grid Layout이 아닌 일반 플로우 상태 */
+        min-height: auto;
     }
     
     /* hero 섹션 이미지/텍스트 세로로 배치 */
