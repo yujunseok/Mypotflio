@@ -183,7 +183,20 @@ a:hover{ text-decoration: underline; }
 .card h3{ margin-bottom:6px; }
 .link{ margin-right:10px; }
 .contact-form{ max-width:720px; margin: 0 auto; }
-.row{ display:grid; grid-template-columns: 1fr 1fr; gap:12px; }
+.row{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.row-name-email{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.row-name-email label{
+    width: 100%;
+}
 
 /* === 입력류 공통 === */
 input, textarea, select{
