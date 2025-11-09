@@ -1,5 +1,5 @@
 :root{
-  --bg:#1a1a1a; /* 배경: #1a1a1a */
+  --bg: #121212;
   --muted:#8a94a7;
   --text:#e7ecf4;
   --card:#242424; 
@@ -9,7 +9,7 @@
   /* === 사이드바 전용 변수 === */
   --sidebar-width: 260px; 
   --sidebar-width-closed: 70px;
-  --sidebar-bg: #2b2b2b; 
+  --sidebar-bg: #1e1e1e;
   --sidebar-text: #e7ecf4; 
   --sidebar-link-hover: #3d3d3d;
 }
