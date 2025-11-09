@@ -188,11 +188,37 @@ a:hover{ text-decoration: underline; }
     flex-direction: column;
     gap: 16px;
 }
+/* 이메일 + 도메인 50:50 유지 */
 .row-name-email{
-    display: grid;
-    grid-template-columns: 1fr 1fr;  /* 이메일 / 도메인 선택 반반 */
-    gap: 16px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
 }
+
+/* 시각적 라벨 숨김(접근성 유지) */
+.sr-only{
+  display:block; /* 레이아웃은 유지 */
+}
+.sr-only > select{
+  width:100%;
+}
+
+/* 기본 옵션(placeholder)은 연한 색, 선택 후엔 일반색 */
+select:required:invalid{ color:#9aa3af; }     /* placeholder 색 (연하게) */
+#emailDomain option{ color:#000; }            /* 드롭다운 항목은 검정색 */
+#emailDomain option[value=""]{ color:#9aa3af; } /* placeholder 옵션 색 */
+
+/* 입력류 톤과 높이 맞추기(이미 있으면 생략 가능) */
+select{
+  width:100%;
+  padding:12px 14px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.04);
+  color: var(--text);
+  outline:none;
+}
+select:focus{ border-color: rgba(255,255,255,0.28); }
 
 .row-name-email label{
     width: 100%;
