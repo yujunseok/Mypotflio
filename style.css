@@ -189,8 +189,8 @@ a:hover{ text-decoration: underline; }
     gap: 16px;
 }
 .row-name-email{
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr 1fr;  /* 이메일 / 도메인 선택 반반 */
     gap: 16px;
 }
 
