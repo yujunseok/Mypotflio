@@ -90,9 +90,19 @@
                         <input type="text" id="name" name="name" required placeholder="홍길동" />
                     </label>
                     <label>
-                        이메일
-                        <input type="email" id="email" name="email" required placeholder="me@example.com" />
+                      이메일
+                      <input type="email" id="email" name="email" required placeholder="me@example.com" />
                     </label>
+                  <label aria-label="이메일 도메인 선택" style="margin-top:6px;">
+                    <select id="emailDomain">
+                      <option value="">@ 도메인 선택</option>
+                      <option value="naver.com">naver.com</option>
+                      <option value="gmail.com">gmail.com</option>
+                      <option value="daum.net">daum.net</option>
+                      <option value="kakao.com">kakao.com</option>
+                      <option value="_custom">직접 입력</option>
+                    </select>
+                  </label>
                 </div>
                 <label>
                     메시지
@@ -104,6 +114,12 @@
                 </div>
                 <p id="formStatus" class="status" role="status" aria-live="polite"></p>
             </form>
+          <div id="modal" class="modal" aria-hidden="true" role="dialog" aria-modal="true">
+            <div class="modal-content">
+              <p id="modalMsg">이메일을 제대로 입력해주세요.</p>
+              <button id="modalOk" class="btn" style="margin-top:10px;">확인</button>
+            </div>
+          </div>
         </section>
 
         <footer class="site-footer">
