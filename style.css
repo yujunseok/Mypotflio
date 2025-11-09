@@ -20,15 +20,13 @@ body{
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Noto Sans KR, Arial, sans-serif;
   color:var(--text);
   line-height:1.6;
-  
-  /* Grid 제거: Fixed Layout을 위해 */
   min-height: 100vh;
   background-color: var(--bg);
 }
 
 /* === 1. 사이드바 스타일 (Fixed Position: 스크롤에 따라옴) === */
 .sidebar-header{
-  position: fixed; top:0; left: 0; /* <<< 이 코드로 화면에 고정됩니다. */
+  position: fixed; top:0; left: 0;
   z-index: 50;
   width: var(--sidebar-width);
   height: 100vh;
@@ -49,13 +47,11 @@ body{
 
 /* === 2. 메인 콘텐츠 래퍼 === */
 .main-content{
-  /* 사이드바 너비만큼 왼쪽 여백을 줘서 겹치지 않게 합니다. */
   margin-left: var(--sidebar-width); 
   transition: margin-left 0.3s ease; 
-  
   background-color: var(--bg); 
   color: var(--text);
-  min-height: 100vh; /* 스크롤을 확인하려면 더 긴 내용을 넣거나 이 값을 늘려주세요. */
+  min-height: 100vh;
 }
 
 /* === 사이드바 토글 버튼 스타일 === */
@@ -108,22 +104,18 @@ body{
 #pageBody.sidebar-closed .main-content{
    margin-left: var(--sidebar-width-closed); 
 }
-
-/* 내용 숨기기 */
 #pageBody.sidebar-closed .sidebar-content {
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
 }
-
-/* 토글 버튼 위치 조정 */
 #pageBody.sidebar-closed .sidebar-toggle{
     right: 50%;
     transform: translateX(50%);
 }
 
 /* ------------------------------------- */
-/* 기존 컴포넌트 스타일 유지 및 조정 */
+/* 기본 컴포넌트 */
 /* ------------------------------------- */
 
 .section{ padding:72px 20px; max-width: 1100px; margin: 0 auto; }
@@ -132,15 +124,13 @@ h2{ font-size: 32px; margin-bottom: 24px; }
 p{ margin: 0 0 12px; color:var(--muted); }
 a{ color: var(--accent); text-decoration: none; }
 a:hover{ text-decoration: underline; }
-
 .nav-toggle{ display:none; }
 
-/* === HERO 섹션 스타일 (이미지 배치) === */
+/* === HERO (이미지+텍스트 분할) === */
 .hero{
   padding: 80px 40px; 
   max-width: 1100px;
   margin: 0 auto;
-  
   display: flex;
   flex-direction: column; 
   align-items: center;
@@ -148,39 +138,38 @@ a:hover{ text-decoration: underline; }
   gap: 30px;
   text-align: center;
 }
-
-/* HERO 이미지 배치 핵심: 텍스트와 이미지 가로로 배치 */
 .hero-split { 
-    display: flex;
-    flex-direction: row; 
-    justify-content: space-between;
-    align-items: center;
-    text-align: left;
+  display: flex;
+  flex-direction: row; 
+  justify-content: space-between;
+  align-items: center;
+  text-align: left;
 }
-
-.hero-copy {
-    order: 2; 
-    max-width: 50%;
-}
-
+.hero-copy { order: 2; max-width: 50%; }
 .hero-photo {
-    order: 1; 
-    width: 300px; 
-    height: 400px; 
-    object-fit: cover; 
-    border-radius: 12px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-    margin-right: 30px;
+  order: 1; 
+  width: 300px; 
+  height: 400px; 
+  object-fit: cover; 
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+  margin-right: 30px;
 }
-
-
 .hero h1{ font-size: 40px; font-weight: 800; }
 .accent{ color: var(--accent); }
 .btn{
   display:inline-block; margin-top:18px; padding:12px 18px; border-radius:12px;
   background: var(--accent); color:var(--bg); font-weight:700;
+  transition: transform .12s ease, background .12s ease;
 }
-.btn:hover{ background: var(--accent-2); text-decoration:none; }
+.btn:hover{ background: var(--accent-2); text-decoration:none; transform: translateY(-1px); }
+.btn-ghost{
+  display:inline-block; margin-top:18px; padding:12px 18px; border-radius:12px;
+  border:1px solid rgba(255,255,255,.35); background:transparent; color:var(--text);
+  transition: transform .12s ease, background .12s ease;
+}
+.btn-ghost:hover{ background: rgba(255,255,255,.06); transform: translateY(-1px); }
+
 .about-grid{ display:grid; grid-template-columns: 160px 1fr; gap:20px; align-items:center; }
 .tags{ display:flex; flex-wrap:wrap; gap:8px; margin: 12px 0 0; padding:0; list-style:none; }
 .tags li{ background: rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.08); padding:6px 10px; border-radius:999px; color:var(--text);}
@@ -195,10 +184,14 @@ a:hover{ text-decoration: underline; }
 .link{ margin-right:10px; }
 .contact-form{ max-width:720px; margin: 0 auto; }
 .row{ display:grid; grid-template-columns: 1fr 1fr; gap:12px; }
-input, textarea{
-  width:100%; padding:12px 14px; border-radius:12px; border:1px solid rgba(255,255,255,0.18);
+
+/* === 입력류 공통 === */
+input, textarea, select{
+  width:100%; padding:12px 14px; border-radius:12px;
+  border:1px solid rgba(255,255,255,0.18);
   background: rgba(255,255,255,0.04); color: var(--text); outline:none;
 }
+select:focus, input:focus, textarea:focus{ border-color: rgba(255,255,255,0.28); }
 textarea{ min-height: 140px; resize: vertical; }
 .actions{ display:flex; align-items:center; gap:12px; margin-top: 10px; }
 .hint{ color:var(--muted); font-size: 14px; }
@@ -207,8 +200,28 @@ textarea{ min-height: 140px; resize: vertical; }
 .status.err{ color:#ff9aa2; }
 .site-footer{ padding: 36px 20px; text-align:center; color:var(--muted); border-top:1px solid rgba(255,255,255,0.06); }
 
+/* === 모달(오류/안내) === */
+.modal{
+  position: fixed; inset: 0; 
+  background: rgba(0,0,0,.6);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.modal.open{ display: flex; }
+.modal-content{
+  background: var(--card);
+  border:1px solid rgba(255,255,255,0.12);
+  border-radius:16px;
+  padding: 20px 22px;
+  max-width: 360px;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,.35);
+}
+
 /* ------------------------------------- */
-/* 반응형 디자인 (Media Queries) 수정 */
+/* 반응형 */
 /* ------------------------------------- */
 
 @media (max-width: 900px){
@@ -216,53 +229,35 @@ textarea{ min-height: 140px; resize: vertical; }
 }
 
 @media (max-width: 768px){ 
-    /* 모바일에서는 Fixed 해제하고 일반 스크롤 */
-    .sidebar-header{
-        position: relative; 
-        width: 100%;
-        height: auto; 
-        padding: 20px 20px;
-        border-right: none;
-        border-bottom: 1px solid rgba(0,0,0,0.1);
-    }
-    .main-content{
-        margin-left: 0 !important; 
-    }
-    
-    body{
-        /* Grid Layout이 아닌 일반 플로우 상태 */
-        min-height: auto;
-    }
-    
-    /* hero 섹션 이미지/텍스트 세로로 배치 */
-    .hero-split {
-        flex-direction: column; 
-        text-align: center;
-    }
-    .hero-photo {
-        order: 1; 
-        margin-right: 0;
-        margin-bottom: 20px;
-        max-width: 250px;
-        height: 300px;
-    }
-    .hero-copy {
-        order: 2; 
-        max-width: 100%;
-        text-align: center;
-    }
+  /* 모바일에서는 Fixed 해제하고 일반 스크롤 */
+  .sidebar-header{
+    position: relative; 
+    width: 100%;
+    height: auto; 
+    padding: 20px 20px;
+    border-right: none;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+  }
+  .main-content{ margin-left: 0 !important; }
+  body{ min-height: auto; }
+  
+  /* hero 세로 스택 */
+  .hero-split { flex-direction: column; text-align: center; }
+  .hero-photo {
+    order: 1; margin-right: 0; margin-bottom: 20px;
+    max-width: 250px; height: 300px;
+  }
+  .hero-copy { order: 2; max-width: 100%; text-align: center; }
 
-    /* 토글 버튼 숨김 */
-    .sidebar-toggle{
-        display: none;
-    }
+  /* 토글 버튼 숨김 */
+  .sidebar-toggle{ display: none; }
 
-    /* 사이드바 내 콘텐츠 정렬 조정 */
-    .sidebar-avatar{ width: 100px; height: 100px; margin-bottom: 10px; }
-    .sidebar-title{ margin-bottom: 10px; }
-    .nav-links{ flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 10px 0 10px; }
-    .sidebar-social{ display: none; }
-    
-    .about-grid{ grid-template-columns: 1fr; text-align:center; }
-    .row{ grid-template-columns: 1fr; }
+  /* 사이드바 내 콘텐츠 정렬 조정 */
+  .sidebar-avatar{ width: 100px; height: 100px; margin-bottom: 10px; }
+  .sidebar-title{ margin-bottom: 10px; }
+  .nav-links{ flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 10px 0 10px; }
+  .sidebar-social{ display: none; }
+  
+  .about-grid{ grid-template-columns: 1fr; text-align:center; }
+  .row{ grid-template-columns: 1fr; }
 }
